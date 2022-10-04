@@ -1,13 +1,14 @@
 "use strict";
-var _a, _b;
+var _a, _b, _c;
 (_a = document.querySelector('neutralArea')) === null || _a === void 0 ? void 0 : _a.addEventListener('click', (e) => {
-    // .target é usado para descobrir qual elemento (e) foi clicado
-    // pelo usuário
     e.target;
-    // enquanto isso, o currentTarget tem basicamente a mesma finalidade porém ele exibe
-    // o elemento que possui o evento de click
 });
-(_b = document.querySelectorAll('.item')) === null || _b === void 0 ? void 0 : _b.forEach(item => {
+(_b = document.querySelectorAll('.area')) === null || _b === void 0 ? void 0 : _b.forEach(area => {
+    area.addEventListener('dragover', dragOver);
+    area.addEventListener('dragleave', dragLeave);
+    area.addEventListener('drop', drop);
+});
+(_c = document.querySelectorAll('.item')) === null || _c === void 0 ? void 0 : _c.forEach(item => {
     item.addEventListener('dragstart', dragStart);
     item.addEventListener('dragend', dragEnd);
 });
@@ -16,4 +17,18 @@ function dragStart(e) {
 }
 function dragEnd(e) {
     e.currentTarget.classList.remove('dragging');
+}
+function dragOver(e) {
+    e.preventDefault();
+    e.currentTarget.classList.add('hover');
+}
+function dragLeave(e) {
+    e.currentTarget.classList.remove('hover');
+}
+function drop(e) {
+    e.currentTarget.classList.remove('hover');
+    if (e.currentTarget.querySelector('.item') == null) {
+        let dragItem = document.querySelector('.item.dragging');
+        e.currentTarget.appendChild(dragItem);
+    }
 }
